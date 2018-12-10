@@ -18,3 +18,7 @@ flameshot gui
 
 - 快捷键设置
 进入系统设置（Setting）>设备（Devices）>键盘（Keyboard）
+
+## Latex
+
+TexMaker
