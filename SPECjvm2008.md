@@ -56,4 +56,4 @@ done
 
 # Data Processing
 
-[A python script for Redmine's wiki format](https://github.com/DamonFool/MyWorkspace/blob/master/script/python/parseSPECjvm2008.py)
+[A python parser generating a Redmine's wiki format report](https://github.com/DamonFool/MyCode/blob/master/python/parseSPECjvm2008.py)
