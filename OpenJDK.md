@@ -104,8 +104,10 @@ bash ./configure --with-jvm-variants=zero --with-jvm-interpreter=cpp
 make CONF=zero DEBUG_BINARIES=true images
 ```
 
-# Build hsdis
-## Download the GNU binutils
+# Preparation for Debugging
+
+## Build hsdis
+### Download the GNU binutils
 ```shell
 cd /home/fool/fujie/workspace/tools
 wget https://ftp.gnu.org/gnu/binutils/binutils-2.30.tar.lz
@@ -114,12 +116,29 @@ lzip -d binutils-2.30.tar.lz
 tar xvf binutils-2.30.tar
 ```
 
-## make
+### make
 ```shell
 export BINUTILS="/home/fool/fujie/workspace/tools/binutils-2.30"
 make all64
 ```
 This will generate hsdis-amd64.so
+
+## Extract Symbol Tables for GDB
+```
+$ file libjvm.diz
+libjvm.diz: Zip archive data, at least v2.0 to extract
+
+$ unzip libjvm.diz
+Archive:  libjvm.diz
+  inflating: libjvm.debuginfo        
+
+$ unzip libjsig.diz
+Archive:  libjsig.diz
+    linking: libjsig.debuginfo       -> ../libjsig.debuginfo 
+finishing deferred symbolic links:
+  libjsig.debuginfo      -> ../libjsig.debuginfo
+```
+
 
 # Other Useful Scripts
 
