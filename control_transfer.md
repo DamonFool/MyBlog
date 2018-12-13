@@ -101,7 +101,6 @@ void Method::clear_native_function() {
 }
 ```
 
-
 - Implementation
 ```cpp
 // Revert to using the interpreter and clear out the nmethod
@@ -120,6 +119,13 @@ void Method::clear_code(bool acquire_lock /* = true */) {
   _code = NULL;
 }
 ```
+
+# Class nmethod
+
+## Related Data Structures
+
+## Related Operations
+
 # From Interpreter to Compiled Code
 
 ## Through Method Invocation
@@ -290,3 +296,14 @@ void InterpreterMacroAssembler::jump_from_interpreted(Register method, Register 
 ```
 
 ## Through OSR
+
+- Implemented in TemplateTable::branch(bool is_jsr, bool is_wide)
+```
+backedge counter overflows
+  --> request an OSR compilation
+        --> check for osr-nmethod
+            if osr is ok then
+              do OSR-migration and jump to the osr-nmethod
+            else
+              continue in the interpreter
+```
