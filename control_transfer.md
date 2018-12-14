@@ -1,6 +1,8 @@
-# Class Method
+# From Interpreter to Compiled Code
 
-## Related Data Structures
+## Through Method Invocation
+
+### Related Data Structures and Operations
 
 ```cpp
 class Method : public Metadata {
@@ -21,11 +23,7 @@ class Method : public Metadata {
   volatile address           _from_interpreted_entry; // Cache of _code ? _adapter->i2c_entry() : _i2i_entry
 }
 ```
-
-## Related Operations
-
-### Method::set_code(methodHandle mh, nmethod *code)
-- Usage
+#### Method::set_code(methodHandle mh, nmethod *code)
 ```
 void ciEnv::register_method(...)
   |
@@ -36,7 +34,6 @@ void AdapterHandlerLibrary::create_native_wrapper(methodHandle method)
   `method->set_code(method, nm);
 ```
 
-- Implementation
 ```cpp
 // Install compiled code.  Instantly it can execute.
 void Method::set_code(methodHandle mh, nmethod *code) {
@@ -70,8 +67,7 @@ void Method::set_code(methodHandle mh, nmethod *code) {
 #endif //!SHARK
 }
 ```
-### Method::clear_code(bool acquire_lock /* = true */)
-- Usage
+#### Method::clear_code(bool acquire_lock /* = true */)
 ```cpp
 bool nmethod::make_not_entrant_or_zombie(unsigned int state) {
   // ...
@@ -101,7 +97,6 @@ void Method::clear_native_function() {
 }
 ```
 
-- Implementation
 ```cpp
 // Revert to using the interpreter and clear out the nmethod
 void Method::clear_code(bool acquire_lock /* = true */) {
@@ -119,17 +114,6 @@ void Method::clear_code(bool acquire_lock /* = true */) {
   _code = NULL;
 }
 ```
-
-# Class nmethod
-
-## Related Data Structures
-
-## Related Operations
-
-# From Interpreter to Compiled Code
-
-## Through Method Invocation
-
 ### List of Method Invocation Templates
 
 ```cpp
@@ -296,6 +280,35 @@ void InterpreterMacroAssembler::jump_from_interpreted(Register method, Register 
 ```
 
 ## Through OSR
+
+### Related Data Structures and Operations
+- class nmethod
+```cpp
+class nmethod : public CodeBlob {
+ private:
+  // Shared fields for all nmethod's
+  Method*   _method;
+  int       _entry_bci;        // != InvocationEntryBci if this nmethod is an on-stack replacement method
+
+  // offsets for entry points
+  address _entry_point;                      // entry point with class check
+  address _verified_entry_point;             // entry point without class check
+  address _osr_entry_point;                  // entry point for on stack replacement
+}
+```
+
+```cpp
+void nmethod::invalidate_osr_method() {
+  assert(_entry_bci != InvocationEntryBci, "wrong kind of nmethod");
+  // Remove from list of active nmethods
+  if (method() != NULL)
+    method()->method_holder()->remove_osr_nmethod(this);
+  // Set entry as invalid
+  _entry_bci = InvalidOSREntryBci;
+}
+```
+
+### Control Transfer through OSR
 
 - Implemented in TemplateTable::branch(bool is_jsr, bool is_wide)
 ```
