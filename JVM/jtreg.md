@@ -92,6 +92,22 @@ ${JT_HOME}/bin/jtreg \
   -timeout:1 -conc:1 \
   -vmoptions:'-Xmx512M -XX:-TieredCompilation' \
   ${JDK_SRC}/jdk/test/java/lang/Class
+
+# for rerunm only
+# -status:fail,error,notRun \
+```
+
+# jtdiff
+
+```shell
+$ ./jtdiff  /home/fool/fujie/workspace/jdk8u/build/jtreg/report /home/fool/fujie/workspace/jdk8u/build/jtreg-old/report
+0: /home/fool/fujie/workspace/jdk8u/build/jtreg/report  pass: 33; not run: 6,198
+1: /home/fool/fujie/workspace/jdk8u/build/jtreg-old/report  pass: 33; not run: 6,198
+```
+
+```shell
+$ ./jtdiff -format:html -o:fu.html /home/fool/fujie/workspace/jdk8u/build/jtreg/report /home/fool/fujie/workspace/jdk8u/build/jtreg-old/report
+$ ./jtdiff -format:text -o:fu.txt /home/fool/fujie/workspace/jdk8u/build/jtreg/report /home/fool/fujie/workspace/jdk8u/build/jtreg-old/report
 ```
 
 # References
