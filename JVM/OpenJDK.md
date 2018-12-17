@@ -203,4 +203,8 @@ done
 
 # Reference
 
+[OpenJDK](http://openjdk.java.net/)
+
+[mail.openjdk.java.net Mailing Lists](http://mail.openjdk.java.net/mailman/listinfo)
+
 [OpenJDK Projects](http://hg.openjdk.org/)
