@@ -25,9 +25,16 @@ bash ./configure --with-boot-jdk='/opt/jdk1.8.0_191' --with-jobs=`cat /proc/cpui
 
 - For OpenJDK12
 ```shell
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --with-native-debug-symbols=external
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --with-native-debug-symbols=external 
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=release
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external 
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=release
+
+# It is recommended to build a 32-bit JVM on a 64-bit machine. 
+bash configure --disable-warnings-as-errors --with-freetype=/cygdrive/c/freetype-i586 --with-target-bits=32
+
+bash configure --disable-warnings-as-errors --enable-debug --with-jvm-variants=server --enable-dtrace
+
+bash configure --disable-warnings-as-errors --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
 ```
 
 - OpenJDK for MIPS
@@ -41,6 +48,10 @@ bash get_source.sh
 make CONF=slow images; make CONF=fast images; make CONF=rel images;
 
 # make images CONF=slowdebug ZIP_DEBUGINFO_FILES=0
+
+# For jdk12: build images twice, second time with newly built JDK
+make bootcycle-images
+make CONF=slow run-test-tier1 # configured --with-jtreg=<jtreg-path>
 ```
 
 ### cc1plus: all warnings being treated as errors
@@ -94,6 +105,10 @@ diff -r 9ce27f0a4683 make/linux/makefiles/gcc.make
  
  ifeq ($(USE_CLANG), true)
    # However we need to clean the code up before we can unrestrictedly enable this option with Clang
+```
+For jdk12, we can use a configuration option to avoid it.
+```
+bash configure --disable-warnings-as-errors
 ```
 
 # Configure and Build OpenJDK Zero VM
