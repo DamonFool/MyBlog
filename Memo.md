@@ -1,3 +1,9 @@
+# Useful Commands
+
+```shell
+tree -L 1 jdk -alh
+```
+
 - How to Upate *.jar
 ```shell
 #jar xvf rt.jar
