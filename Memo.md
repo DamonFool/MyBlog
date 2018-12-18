@@ -4,6 +4,19 @@
 tree -L 1 jdk -alh
 ```
 
+## Debug
+
+```shell
+# check for debug version
+$ file libjvm.so
+libjvm.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=55217d0ae8be32c509367e0c7a8d9ac88ec85213, not stripped
+$ file libjvm.so
+libjvm.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=84e129a4db975e78e61a32f40dfb9a42e7d6b707, with debug_info, not stripped
+
+# check for symbols
+$ nm libjvm.so
+```
+
 - How to Upate *.jar
 ```shell
 #jar xvf rt.jar

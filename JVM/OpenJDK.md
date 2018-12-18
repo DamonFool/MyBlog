@@ -25,8 +25,8 @@ bash ./configure --with-boot-jdk='/opt/jdk1.8.0_191' --with-jobs=`cat /proc/cpui
 
 - For OpenJDK12
 ```shell
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --with-native-debug-symbols=internal 
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --with-native-debug-symbols=internal 
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --with-native-debug-symbols=external
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --with-native-debug-symbols=external 
 bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=release
 ```
 
