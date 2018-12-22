@@ -15,6 +15,20 @@ bash get_source.sh # may need a cup of coffee time to download it
 hg clone http://hg.openjdk.org/jdk/jdk/ # Now is jdk12
 ```
 
+- For slow or unstable network
+```shell
+#!/bin/bash
+
+hg clone http://hg.openjdk.java.net/jdk/jdk/
+
+while [ $? -ne 0 ]
+do
+
+  hg clone http://hg.openjdk.java.net/jdk/jdk/
+
+done
+```
+
 ## 2: Configure
 - For OpenJDK8
 ```shell
