@@ -50,6 +50,14 @@ make all64
 ```
 This will generate hsdis-amd64.so on x86_64 machines.
 
+### cp hsdis
+
+```shell
+cp ./src/utils/hsdis/build/linux-amd64/hsdis-amd64.so ./build/linux-x86_64-server-slowdebug/images/jdk/lib/server/
+cp ./src/utils/hsdis/build/linux-amd64/hsdis-amd64.so ./build/linux-x86_64-server-fastdebug/images/jdk/lib/server/
+cp ./src/utils/hsdis/build/linux-amd64/hsdis-amd64.so ./build/linux-x86_64-server-release/images/jdk/lib/server/
+```
+
 # Testing
 
 ## jtreg
@@ -81,3 +89,15 @@ jmh
 1 directory, 5 files
 ```
 Then configure --with-jmh=build/jmh/jars
+
+# References
+
+[JEP 3: JDK Release Process](http://openjdk.java.net/jeps/3)
+
+[JDK 12](http://openjdk.java.net/projects/jdk/12/)
+
+[OpenJDK](http://openjdk.java.net/)
+
+[OpenJDK Projects](http://hg.openjdk.org/)
+
+[OpenJDK wiki](https://wiki.openjdk.java.net/)
