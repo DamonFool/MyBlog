@@ -9,9 +9,9 @@ hg clone http://hg.openjdk.org/jdk/jdk/ # Now is jdk12
 
 ### Configure
 ```shell
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=release
+bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
+bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external
+bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=release
 
 # It is recommended to build a 32-bit JVM on a 64-bit machine.
 bash configure --disable-warnings-as-errors --with-freetype=/cygdrive/c/freetype-i586 --with-target-bits=32
@@ -19,7 +19,7 @@ bash configure --disable-warnings-as-errors --with-freetype=/cygdrive/c/freetype
 bash configure --disable-warnings-as-errors --enable-debug --with-jvm-variants=server --enable-dtrace
 
 # To be able to run the jtreg tests and microbenchmarks
-bash configure --disable-warnings-as-errors --with-debug-level=fastdebug --with-boot-jdk='/opt/jdk-11.0.1' --with-jmh=build/jmh/jars --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
+bash configure --disable-warnings-as-errors --with-debug-level=fastdebug --with-boot-jdk=/opt/jdk-11.0.1 --with-jmh=build/jmh/jars --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
 ```
 
 ### Make

@@ -32,23 +32,23 @@ done
 ## 2: Configure
 - For OpenJDK8
 ```shell
-bash ./configure --with-boot-jdk='/opt/jdk1.8.0_191' --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
-bash ./configure --with-boot-jdk='/opt/jdk1.8.0_191' --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-debug-level=fastdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
-bash ./configure --with-boot-jdk='/opt/jdk1.8.0_191' --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l`
+bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
+bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-debug-level=fastdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
+bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l`
 ```
 
 - For OpenJDK12
 ```shell
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external 
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --disable-warnings-as-errors --with-debug-level=release
+bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
+bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external 
+bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=release
 
 # It is recommended to build a 32-bit JVM on a 64-bit machine. 
 bash configure --disable-warnings-as-errors --with-freetype=/cygdrive/c/freetype-i586 --with-target-bits=32
 
 bash configure --disable-warnings-as-errors --enable-debug --with-jvm-variants=server --enable-dtrace
 
-bash configure --disable-warnings-as-errors --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
+bash configure --disable-warnings-as-errors --with-boot-jdk=/opt/jdk-11.0.1 --with-debug-level=slowdebug --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
 ```
 
 - OpenJDK for MIPS
