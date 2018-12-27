@@ -33,6 +33,112 @@ make bootcycle-images
 make CONF=slow run-test-tier1 # configured --with-jtreg=<jtreg-path>
 ```
 
+## Build Failed with Netbeans
+
+### Failed Log
+
+```
+Creating support/demos/image/jfc/CodePointIM/CodePointIM.jar
+Creating support/demos/image/jfc/SwingSet2/SwingSet2.jar
+Creating support/demos/image/jfc/Font2DTest/Font2DTest.jar
+Creating support/demos/image/jfc/FileChooserDemo/FileChooserDemo.jar
+Note: /home/fool/fujie/workspace/jdk/src/demo/share/jfc/Stylepad/Stylepad.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Creating support/demos/image/jfc/Metalworks/Metalworks.jar
+Creating support/demos/image/jfc/Notepad/Notepad.jar
+Creating support/demos/image/jfc/SampleTree/SampleTree.jar
+Creating support/demos/image/jfc/Stylepad/Stylepad.jar
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/fool/fujie/workspace/jdk/src/demo/share/jfc/TableExample/TableExample4.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Creating support/demos/image/jfc/TableExample/TableExample.jar
+Creating support/demos/image/jfc/TransparentRuler/TransparentRuler.jar
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Creating support/demos/image/jfc/J2Ddemo/J2Ddemo.jar
+Compiling 1 files for CLASSLIST_JAR
+Creating support/classlist.jar
+GenerateLinkOptData.gmk:63: recipe for target '/home/fool/fujie/workspace/jdk/build/linux-x86_64-server-slowdebug/support/link_opt/classlist' failed
+make[3]: *** [/home/fool/fujie/workspace/jdk/build/linux-x86_64-server-slowdebug/support/link_opt/classlist] Error 1
+make/Main.gmk:471: recipe for target 'generate-link-opt-data' failed
+make[2]: *** [generate-link-opt-data] Error 2
+
+ERROR: Build failed for target 'images' in configuration 'linux-x86_64-server-slowdebug' (exit code 2) 
+Stopping sjavac server
+
+=== Make failed targets repeated here ===
+GenerateLinkOptData.gmk:63: recipe for target '/home/fool/fujie/workspace/jdk/build/linux-x86_64-server-slowdebug/support/link_opt/classlist' failed
+make/Main.gmk:471: recipe for target 'generate-link-opt-data' failed
+=== End of repeated output ===
+
+Hint: Try searching the build log for the name of the first failed target.
+Hint: See doc/building.html#troubleshooting for assistance.
+
+/home/fool/fujie/workspace/jdk/make/Init.gmk:305: recipe for target 'main' failed
+make[1]: *** [main] Error 2
+/home/fool/fujie/workspace/jdk/make/Init.gmk:186: recipe for target 'images' failed
+make: *** [images] Error 2
+
+BUILD FAILED (exit value 2, total time: 3m 59s)
+```
+
+### Fail Reason
+
+- Left: failed; Right: passed
+```
+  configure: Configuration created at Thu Dec 27 14:17:13 CST 2018.                                   |  configure: Configuration created at Thu Dec 27 14:11:44 CST 2018.                                  
+  checking for basename... /usr/bin/basename                                                          |  checking for basename... /usr/bin/basename
+  checking for bash... /bin/bash                                                                      |  checking for bash... /bin/bash
+  checking for cat... /bin/cat                                                                        |  checking for cat... /bin/cat
+  checking for chmod... /bin/chmod                                                                    |  checking for chmod... /bin/chmod
+  checking for cmp... /usr/bin/cmp                                                                    |  checking for cmp... /usr/bin/cmp
+  checking for comm... /usr/bin/comm                                                                  |  checking for comm... /usr/bin/comm
++ +-- 98 lines: checking for cp... /bin/cp------------------------------------------------------------|+ +-- 98 lines: checking for cp... /bin/cp-----------------------------------------------------------
+  checking full docs... no, missing dependencies                                                      |  checking full docs... no, missing dependencies
+  checking for cacerts file... default                                                                |  checking for cacerts file... default
+  checking for jni library path... default                                                            |  checking for jni library path... default
+  checking if packaged modules are kept... yes (default)                                              |  checking if packaged modules are kept... yes (default)
+  checking for version string... 13-internal+0-adhoc.fool.jdk                                         |  checking for version string... 13-internal+0-adhoc.fool.jdk
+  checking for javac... /opt/jdk-11.0.1/bin/javac                                                     |  checking for javac... /opt/jdk-11.0.1/bin/javac
+  checking for java... /usr/bin/java                                                                  |  checking for java... /opt/jdk-11.0.1/bin/java                                                      
+  configure: Found potential Boot JDK using java(c) in PATH                                           |  configure: Found potential Boot JDK using java(c) in PATH
+  checking for Boot JDK... /opt/jdk-11.0.1                                                            |  checking for Boot JDK... /opt/jdk-11.0.1
+  checking Boot JDK version... java version "11.0.1" 2018-10-16 LTS Java(TM) SE Runtime Environment 18|  checking Boot JDK version... java version "11.0.1" 2018-10-16 LTS Java(TM) SE Runtime Environment 1
+  checking for java in Boot JDK... ok                                                                 |  checking for java in Boot JDK... ok
+  checking for javac in Boot JDK... ok                                                                |  checking for javac in Boot JDK... ok
+  checking for javadoc in Boot JDK... ok                                                              |  checking for javadoc in Boot JDK... ok
++ +--171 lines: checking for jar in Boot JDK... ok----------------------------------------------------|+ +--171 lines: checking for jar in Boot JDK... ok---------------------------------------------------
+```
+
+- Difference: checking for java...
+```
+$ /usr/bin/java -version
+openjdk version "10.0.2" 2018-07-17
+OpenJDK Runtime Environment (build 10.0.2+13-Ubuntu-1ubuntu0.18.04.4)
+OpenJDK 64-Bit Server VM (build 10.0.2+13-Ubuntu-1ubuntu0.18.04.4, mixed mode)
+```
+
+### Try to Fix
+
+```shell
+$ sudo mv /usr/bin/java /usr/bin/java-old
+$ sudo ln -s /opt/jdk-11.0.1/bin/java /usr/bin/java
+```
+Not work.
+
+### More Experiments
+
+|Settings|Results|
+|-|-|
+|netbeans8.2 running on jdk8, sh configure --with-debug-level=slowdebug --with-boot-jdk=/opt/jdk-11.0.1|passed|
+|netbeans8.2 running on jdk8, sh configure --with-debug-level=slowdebug|failed|
+|netbeans9.0 running on jdk11, sh configure --with-debug-level=slowdebug|passed|
+|netbeans8.2 running on jdk11, sh configure --with-debug-level=slowdebug|netbeans didn't work|
+
+
 ## Build hsdis
 ### Download the GNU binutils
 ```shell
