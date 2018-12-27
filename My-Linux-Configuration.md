@@ -22,3 +22,7 @@ flameshot gui
 ## Latex
 
 TexMaker
+
+## netbeans
+
+[C/C++ support for netbeans 9](https://stackoverflow.com/questions/51493882/netbeans-9-c-support)
