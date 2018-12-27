@@ -4,7 +4,7 @@
 
 There are many invalid items in jdk/make/nb_native/nbproject/configurations.xml.
 
-- For example, this item is invalid since advancedThresholdPolicy.cpp had been remove from the project. 
+- For example, this item is invalid since advancedThresholdPolicy.cpp had been removed from the project. 
 ```
       <item path="../../src/hotspot/share/runtime/advancedThresholdPolicy.cpp"
             ex="false"
