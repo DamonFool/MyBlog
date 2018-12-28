@@ -1,5 +1,7 @@
 # Invalid Items in jdk/make/nb_native/nbproject/configurations.xml
 
+JBS: [NetBeans pre-build failed due to the incorrect configuration](https://bugs.openjdk.java.net/browse/JDK-8215952)
+
 ## Examples of Invalid Items
 
 There are many invalid items in jdk/make/nb_native/nbproject/configurations.xml.
@@ -717,3 +719,38 @@ A list of invalid items with [the jdk version](http://hg.openjdk.org/jdk/jdk/rev
 ../../test/hotspot/gtest/gc/g1/test_bufferingOopClosure.cpp|not-found
 ../../test/hotspot/gtest/logging/test_logTagLevelExpression.cpp|not-found
 ../../test/jdk/java/nio/channels/spi/SelectorProvider/inheritedChannel/Launcher.c|not-found
+
+## Code to Remove Items
+
+```python
+"""
+      <item path="../../build/hotspot/variant-server/gensrc/adfiles/ad_x86_64_expand.cpp"
+            ex="false"
+            tool="1"
+            flavor2="4">
+        <ccTool flags="0">
+          <preprocessorList>
+            <Elem>THIS_FILE="ad_x86_64_expand.cpp"</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+"""
+
+fin  = open("/home/fool/fujie/workspace/jdk/make/nb_native/nbproject/configurations.xml", "r")
+fout = open("configurations.xml", "w")
+
+flags = True
+
+for line in fin:
+  if "<item path=\"" in line:
+    flags = False
+
+  if flags:
+    fout.write(line)
+
+  if "</item>" in line:
+    flags = True
+
+fin.close()
+fout.close()
+```

@@ -1,5 +1,7 @@
 # OpenJDK Pre-build Failed with Netbeans
 
+JBS: [NetBeans pre-build failed due to the incorrect configuration](https://bugs.openjdk.java.net/browse/JDK-8215952)
+
 ## Error: Can't open ../configure
 
 ```
