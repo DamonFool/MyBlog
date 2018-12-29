@@ -168,6 +168,15 @@ finishing deferred symbolic links:
   libjsig.debuginfo      -> ../libjsig.debuginfo
 ```
 
+## PrintAssembly
+
+```
+-XX:+PrintAssembly
+-XX:PrintAssemblyOptions=intel
+```
+```
+-XX:PrintAssemblyOptions=hsdis-print-bytes
+```
 
 # Other Useful Scripts
 
