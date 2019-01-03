@@ -311,3 +311,28 @@ diff -r b99b41325d89 test/jdk/java/beans/PropertyEditor/Test6397609.java
          if (isEditorExist(Object.class)) {
              throw new Error("unexpected editor is found");
 ```
+
+### A Better Patch
+
+- A Better Patch suggested by Alan.Bateman@oracle.com
+```
+diff -r b561ea19a7b9 test/jdk/java/beans/PropertyEditor/Test6397609.java
+--- a/test/jdk/java/beans/PropertyEditor/Test6397609.java       Wed Jan 02 15:33:32 2019 -0800
++++ b/test/jdk/java/beans/PropertyEditor/Test6397609.java       Thu Jan 03 08:56:16 2019 +0800
+@@ -32,6 +32,7 @@
+  */
+ 
+ import java.beans.PropertyEditorManager;
++import java.lang.ref.Reference;
+ 
+ public class Test6397609 {
+     public static void main(String[] args) throws Exception {
+@@ -44,6 +45,7 @@
+         if (!isEditorExist(Object.class)) {
+             throw new Error("the editor is lost");
+         }
++        Reference.reachabilityFence(loader);
+         loader = null; // clean the reference
+         if (isEditorExist(Object.class)) {
+             throw new Error("unexpected editor is found");
+```
