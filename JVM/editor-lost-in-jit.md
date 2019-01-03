@@ -1,5 +1,9 @@
 # Editor Lost in JIT 
 
+[JDK-8216046](https://bugs.openjdk.java.net/browse/JDK-8216046)
+
+Thanks Alan Bateman.
+
 ## Symptom 
 
 Test case test/jdk/java/beans/PropertyEditor/Test6397609.java failed when running with -Xcomp.
