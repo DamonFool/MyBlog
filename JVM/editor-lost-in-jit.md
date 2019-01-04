@@ -2,7 +2,7 @@
 
 [JDK-8216046](https://bugs.openjdk.java.net/browse/JDK-8216046)
 
-Thanks Alan Bateman.
+Thanks Alan Bateman and Sergey Bylokhov.
 
 ## Symptom 
 
@@ -339,4 +339,53 @@ diff -r b561ea19a7b9 test/jdk/java/beans/PropertyEditor/Test6397609.java
          loader = null; // clean the reference
          if (isEditorExist(Object.class)) {
              throw new Error("unexpected editor is found");
+```
+
+## Appendix
+
+### Make Sure All Weak References are Reclaimed 
+
+- Suggested by Sergey.Bylokhov@oracle.com
+```java
+    private static boolean isEditorExist(Class type) {
+        Vector<byte[]> garbage = new Vector<byte[]>();
+        // clean all weak references
+        while (true) {
+            try {
+                garbage.add(new byte[180306]);
+            }
+            catch (OutOfMemoryError e) {
+                break;
+            }
+        }
+        garbage = null;
+
+        if (null == PropertyEditorManager.findEditor(type)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+```
+
+### Make Sure a GC was Performed
+
+Ref: http://www.javacreed.com/how-to-force-garbage-collection/
+
+```java
+    private static boolean isEditorExist(Class type) {
+        Object object = new Object();
+        final WeakReference<Object> ref = new WeakReference<>(object);
+        object = null;
+        // clean all weak references
+        while (ref.get() != null) {
+            System.gc();
+        }
+
+        if (null == PropertyEditorManager.findEditor(type)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 ```
