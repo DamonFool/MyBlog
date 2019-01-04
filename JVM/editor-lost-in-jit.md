@@ -345,6 +345,30 @@ diff -r b561ea19a7b9 test/jdk/java/beans/PropertyEditor/Test6397609.java
 
 ### Make Sure All Weak References are Reclaimed 
 
+- Alan's approach
+```java
+    private static boolean isEditorExist(Class type) {
+        Object object = new Object();
+        final WeakReference<Object> ref = new WeakReference<>(object);
+        object = null;
+        // clean all weak references
+        while (ref.get() != null) {
+            System.gc();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                // pass
+            }
+        }
+
+        if (null == PropertyEditorManager.findEditor(type)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+```
+
 - Suggested by Sergey.Bylokhov@oracle.com
 ```java
     private static boolean isEditorExist(Class type) {
