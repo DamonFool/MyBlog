@@ -8,6 +8,26 @@ hg clone http://hg.openjdk.org/jdk/jdk/ # Now is jdk12
 ```
 
 ### Configure
+
+- my shell script
+```shell
+JDK=/home/fool/jdk/
+JTREG=/home/fool/fujie/workspace/jtreg/build/images/jtreg
+
+rm ${JDK}/build -rf
+
+bash ${JDK}/make/devkit/createJMHBundle.sh
+
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+bash configure --with-boot-jdk='/opt/jdk-11.0.1'                              --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+
+make CONF=slow images
+make CONF=rel  images
+make CONF=fast images
+```
+
+- more configurations
 ```shell
 bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
 bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external
