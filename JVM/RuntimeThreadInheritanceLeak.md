@@ -1,5 +1,7 @@
 # Symptom
 
+[JDK-8216528](https://bugs.openjdk.java.net/browse/JDK-8216528)
+
 test/jdk/java/rmi/transport/runtimeThreadInheritanceLeak/RuntimeThreadInheritanceLeak.java failed with "java -Xcomp RuntimeThreadInheritanceLeak".
 
 - The failure can be reproduced always.
