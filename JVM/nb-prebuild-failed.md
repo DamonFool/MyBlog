@@ -2,6 +2,10 @@
 
 JBS: [NetBeans pre-build failed due to the incorrect configuration](https://bugs.openjdk.java.net/browse/JDK-8215952)
 
+Pushed: [8215952: Update NetBeans project file](http://hg.openjdk.org/jdk/jdk/rev/ec8091d12a7e)
+
+Thanks Magnus, Alan and David.
+
 ## Error: Can't open ../configure
 
 ```

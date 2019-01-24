@@ -16,11 +16,15 @@ JTREG=/home/fool/fujie/workspace/jtreg/build/images/jtreg
 
 rm ${JDK}/build -rf
 
+cd ${JDK}
+
 bash ${JDK}/make/devkit/createJMHBundle.sh
 
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
-bash configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
-bash configure --with-boot-jdk='/opt/jdk-11.0.1'                              --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+bash ${JDK}/configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+bash ${JDK}/configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+bash ${JDK}/configure --with-boot-jdk='/opt/jdk-11.0.1'                              --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+
+exit 0
 
 make CONF=slow images
 make CONF=rel  images
