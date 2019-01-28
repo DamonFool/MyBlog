@@ -27,3 +27,10 @@ javac  \
       java/util/ComparableTimSort.java
 jar uvf rt.jar java/util/ComparableTimSort*.class
 ```
+
+# Eclipse
+
+|Command|Description|
+|-|-|
+|ctrl+shift+T|find a class|
+|ctrl+shift+R|find a file|
