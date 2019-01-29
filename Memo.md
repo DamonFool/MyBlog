@@ -34,3 +34,10 @@ jar uvf rt.jar java/util/ComparableTimSort*.class
 |-|-|
 |ctrl+shift+T|find a class|
 |ctrl+shift+R|find a file|
+
+# Netbeans
+
+|Command|Description|
+|-|-|
+|ctrl + o|go to type|
+|alt + shift + o|go to file|
