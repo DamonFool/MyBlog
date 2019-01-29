@@ -231,3 +231,9 @@ Then configure --with-jmh=build/jmh/jars
 [OpenJDK Projects](http://hg.openjdk.org/)
 
 [OpenJDK wiki](https://wiki.openjdk.java.net/)
+
+[idealgraphvisualizer](https://lafo.ssw.uni-linz.ac.at/pub/idealgraphvisualizer/)
+
+[c1visualizer](https://lafo.ssw.uni-linz.ac.at/pub/graal-external-deps/c1visualizer-1.7.zip)
+
+[graal-external-deps](https://lafo.ssw.uni-linz.ac.at/pub/graal-external-deps/)
