@@ -177,6 +177,7 @@ tar xvf binutils-2.30.tar
 ```shell
 export BINUTILS="/home/fool/fujie/workspace/tools/binutils-2.30"
 make all64
+# make BINUTILS=binutils-2.24 ARCH=amd64 CFLAGS=-Wno-error
 ```
 This will generate hsdis-amd64.so on x86_64 machines.
 
