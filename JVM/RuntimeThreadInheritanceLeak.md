@@ -2,6 +2,10 @@
 
 [JDK-8216528](https://bugs.openjdk.java.net/browse/JDK-8216528)
 
+Pushed: http://hg.openjdk.java.net/jdk/jdk/rev/5e9f3a73abab
+
+Thanks Roger, David and Alan.
+
 test/jdk/java/rmi/transport/runtimeThreadInheritanceLeak/RuntimeThreadInheritanceLeak.java failed with "java -Xcomp RuntimeThreadInheritanceLeak".
 
 - The failure can be reproduced always.
