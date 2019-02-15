@@ -1,3 +1,39 @@
+# OpenJDK Community
+
+## Useful Websites 
+
+- OpenJDK homepage
+http://openjdk.java.net/
+
+- OpenJDK wiki
+https://wiki.openjdk.java.net/
+
+- OpenJDK Main-line code repository
+http://hg.openjdk.java.net/jdk/jdk/
+
+- JBS
+https://bugs.openjdk.java.net
+
+- Webrev
+http://cr.openjdk.java.net
+http://cr.openjdk.java.net/~jiefu/
+
+- OpenJDK Web Site Terms of Use
+http://openjdk.java.net/legal/tou/
+
+## FAQ
+
+- How can I tell if I, or someone else, has signed the OCA?
+A list of OCA signatories is available [here](www.oracle.com/technetwork/community/oca-486395.html)
+
+- How do I change my OpenJDK e-mail address of record?
+Send a message to registrar@openjdk.java.net
+
+## TODO
+
+[JBS Overview](https://wiki.openjdk.java.net/display/general/JBS+Overview)
+[Community Code Review](http://openjdk.java.net/guide/codeReview.html)
+
 # Building
 
 ## Build OpenJDK
