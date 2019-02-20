@@ -198,6 +198,10 @@ Not work.
 |netbeans9.0 running on jdk11, sh configure --with-debug-level=slowdebug|passed|
 |netbeans8.2 running on jdk11, sh configure --with-debug-level=slowdebug|netbeans didn't work|
 
+## Build zero
+```
+bash ./configure --with-jvm-variants=zero
+```
 
 ## Build hsdis
 ### Download the GNU binutils
