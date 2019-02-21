@@ -21,6 +21,29 @@ http://cr.openjdk.java.net/~jiefu/
 - OpenJDK Web Site Terms of Use
 http://openjdk.java.net/legal/tou/
 
+## How to Use Webrev
+
+```
+wget http://hg.openjdk.java.net/code-tools/webrev/raw-file/tip/webrev.ksh
+
+ksh webrev.ksh  -N -r 53868
+
+mkdir 8219519
+
+mv webrev 8219519/webrev.00
+
+scp -r 8219519 jiefu@cr.openjdk.java.net:
+```
+
+```
+$ hg summary
+parent: 53868:1bd7233074c1 tip
+ 8219486: Missing reg_mask_init() breaks x86_32 build
+branch: default
+commit: 2 removed, 5 unknown
+update: (current)
+```
+
 ## FAQ
 
 - How can I tell if I, or someone else, has signed the OCA?
