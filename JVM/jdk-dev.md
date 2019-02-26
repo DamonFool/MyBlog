@@ -105,6 +105,11 @@ bash configure --disable-warnings-as-errors --enable-debug --with-jvm-variants=s
 bash configure --disable-warnings-as-errors --with-debug-level=fastdebug --with-boot-jdk=/opt/jdk-11.0.1 --with-jmh=build/jmh/jars --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
 ```
 
+- Disable C1
+```
+--with-jvm-features=-compiler1
+```
+
 ### Make
 ```shell
 make CONF=slow images; make CONF=fast images; make CONF=rel images;
