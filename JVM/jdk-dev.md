@@ -45,6 +45,12 @@ commit: 2 removed, 5 unknown
 update: (current)
 ```
 
+## Submit Repo
+
+https://wiki.openjdk.java.net/display/Build/Submit+Repo
+
+jdk/submit only runs tier1 testing
+
 ## FAQ
 
 - How can I tell if I, or someone else, has signed the OCA?
