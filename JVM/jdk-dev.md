@@ -268,6 +268,12 @@ cp ./src/utils/hsdis/build/linux-amd64/hsdis-amd64.so ./build/linux-x86_64-serve
 
 ## jtreg
 
+```
+make CONF=release test TEST="jtreg:test/hotspot:hotspot_compiler"
+make CONF=release test TEST="test/hotspot/jtreg/compiler/floatingpoint/TestFloatJNIArgs.java"
+make CONF=release test TEST="compiler/floatingpoint/TestFloatJNIArgs.java"
+```
+
 ## gtest
 
 ## Java Microbenchmark Harness
@@ -310,16 +316,15 @@ DST="/home/loongson/fujie/jdk-mips/test/hotspot/jtreg/compiler/floatingpoint"
 # It's highly recommended that you fix the library with 'execstack -c <libfile>', or link it with '-z noexecstack'.
 # https://sourceware.org/ml/libc-alpha/2016-01/msg00567.html
 
-cd $DST
+#cd $DST
 #gcc -I$JAVA_HOME/include -I$JAVA_HOME/include/linux -fPIC -shared -o libTestFloatJNIArgs.so libTestFloatJNIArgs.c
 #gcc -I$JAVA_HOME/include -I$JAVA_HOME/include/linux -z noexecstack -fPIC -shared -o libTestFloatJNIArgs.so libTestFloatJNIArgs.c
-cd -
+#cd -
 
 #${JAVA_HOME}/bin/javac  compiler/floatingpoint/TestFloatJNIArgs.java
 
 ${JAVA_HOME}/bin/java -Djava.library.path="${DST}"  compiler.floatingpoint.TestFloatJNIArgs
 ```
-
 
 # References
 
