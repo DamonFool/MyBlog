@@ -299,6 +299,27 @@ Then configure --with-jmh=build/jmh/jars
 - More info.
 http://openjdk.java.net/projects/code-tools/jmh/
 
+## Native Methods
+
+```shell
+JAVA_HOME="/home/loongson/fujie/jdk-mips/build/linux-mips64el-normal-server-release/images/jdk"
+JAVA_HOME="/home/loongson/fujie/jdk-mips/build/linux-mips64el-normal-server-slowdebug/images/jdk"
+DST="/home/loongson/fujie/jdk-mips/test/hotspot/jtreg/compiler/floatingpoint"
+
+# OpenJDK 64-Bit Server VM warning: You have loaded library /home/loongson/fujie/jdk-mips/test/hotspot/jtreg/compiler/floatingpoint/libTestFloatJNIArgs.so which might have disabled stack guard. The VM will try to fix the stack guard now.
+# It's highly recommended that you fix the library with 'execstack -c <libfile>', or link it with '-z noexecstack'.
+# https://sourceware.org/ml/libc-alpha/2016-01/msg00567.html
+
+cd $DST
+#gcc -I$JAVA_HOME/include -I$JAVA_HOME/include/linux -fPIC -shared -o libTestFloatJNIArgs.so libTestFloatJNIArgs.c
+#gcc -I$JAVA_HOME/include -I$JAVA_HOME/include/linux -z noexecstack -fPIC -shared -o libTestFloatJNIArgs.so libTestFloatJNIArgs.c
+cd -
+
+#${JAVA_HOME}/bin/javac  compiler/floatingpoint/TestFloatJNIArgs.java
+
+${JAVA_HOME}/bin/java -Djava.library.path="${DST}"  compiler.floatingpoint.TestFloatJNIArgs
+```
+
 
 # References
 
