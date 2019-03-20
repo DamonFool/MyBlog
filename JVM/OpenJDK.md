@@ -32,9 +32,9 @@ done
 ## 2: Configure
 - For OpenJDK8
 ```shell
-bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
-bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-debug-level=fastdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
-bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l`
+bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-extra-cflags=-Wno-error --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
+bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-extra-cflags=-Wno-error --with-debug-level=fastdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
+bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-extra-cflags=-Wno-error
 ```
 
 - For OpenJDK12
