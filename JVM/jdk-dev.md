@@ -266,7 +266,71 @@ cp ./src/utils/hsdis/build/linux-amd64/hsdis-amd64.so ./build/linux-x86_64-serve
 
 # Testing
 
+## docker tests 
+
+- Install on Ubuntu 18.04
+```
+$ sudo apt install docker.io
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+```
+
+- Installatin Verify
+```
+$ docker -v
+$ docker ps
+```
+
+```
+$ docker ps
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.39/containers/json: dial unix /var/run/docker.sock: connect: permission denied
+$ ll /var/run/docker.sock
+srw-rw---- 1 root docker 0 3月  21 10:29 /var/run/docker.sock=
+```
+
+https://www.jianshu.com/p/95e397570896
+```
+$ sudo gpasswd -a fool docker
+[sudo] password for fool: 
+Adding user fool to group docker
+
+$ sudo service docker restart
+$ newgrp - docker
+```
+
+Fix network
+http://www.linuxdiyf.com/linux/28252.html
+```
+ 问题
+在ubuntu16.04上安装完docker后，发现电脑无法上网了。
+由于是在公司网络，使用了代理上网（代理地址：172.17.18.88）。安装docker（1.7.5）后docker创建了一个虚拟网络桥连，恰好也使用了172.17.1.0/16的网段，导致电脑配置的代理服务器172.17.18.88直接找到了docker的网段IP(172.17.0.1)，从而导致无法上网。
+ 
+解答
+找到了原因，我们就让docker避开172.17.18.0/24网段。所幸改成192.168.7.1/24，也避免与一般的家用路由器IP段相撞。
+局域网保留地址：
+A类：10.0.0.0/8 10.0.0.0-10.255.255.255
+B类：172.16.0.0/12 172.16.0.0-172.31.255.255
+C类：192.168.0.0/16 192.168.0.0～192.168.255.255
+下面修改docker配置，以ubuntu16.04为例。
+修改之前先停止docker服务，然后删除docker0的网络配置。
+sudo vim /etc/default/docker 
+#添加1行：
+DOCKER_OPTS="--bip=192.168.7.1/24"
+sudo vim /etc/systemd/system/docker.service 
+#如果docker.service文件不存在，则看/lib/systemd/system/docker.service文件
+#添加：
+[Service]
+EnvironmentFile=-/etc/default/docker
+#修改
+ExecStart=/usr/bin/dockerd -H fd:// $DOCKER_OPTS
+配置完成后重新docker服务即可
+```
+
 ## jtreg
+
+```
+export LC_ALL=C
+```
 
 ```
 make CONF=release test TEST="jtreg:test/hotspot:hotspot_compiler"
