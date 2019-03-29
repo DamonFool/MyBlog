@@ -3,6 +3,43 @@
 ## Symptom
 ~15% performance degradation (from 700 ops/m to 600 ops/m) was observed randomly on x86 while running SPECjvm2008's scimark.monte_carlo with -XX:-TieredCompilation.
 
+- Fast evaluation
+```shell
+#!/bin/bash
+
+SPECJVM2008="/home/fool/fujie/workspace/jdk-test/SPECjvm2008"
+
+Ben="scimark.monte_carlo"
+JDK="/home/fool/jdk/build/linux-x86_64-server-release/images/jdk"
+JVM_ARGS="-XX:-TieredCompilation -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining"
+JVM_ARGS="-XX:-TieredCompilation"
+
+cd ${SPECJVM2008}
+
+num=0
+
+while true; do
+
+   let num++
+   echo ${num}
+   ${JDK}/bin/java \
+      ${JVM_ARGS} \
+      -XX:CompileCommand=dontinline,'spec/benchmarks/scimark/utils/Random.<init>' \
+      -jar SPECjvm2008.jar -ikv -coe -ict \
+      ${Ben} | tee fu-dontinline-${num}.log
+
+   sleep 2s
+
+   ${JDK}/bin/java \
+      ${JVM_ARGS} \
+      -jar SPECjvm2008.jar -ikv -coe -ict \
+      ${Ben} | tee fu-normal-${num}.log
+
+   sleep 2s
+
+done
+```
+
 ## Reproduce
 It can be always reproduced with the script[1] in less than 5 minutes.
 
@@ -217,4 +254,10 @@ while true; do
 
 done
 ```
+- Fast reproduce
+```
+      -XX:CompileCommand=quiet \
+      -XX:CompileOnly=spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate \
+```
+
 [2] http://hg.openjdk.java.net/jdk/jdk/file/0a2d73e02076/src/hotspot/share/opto/bytecodeInfo.cpp#l375
