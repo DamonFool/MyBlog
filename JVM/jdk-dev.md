@@ -238,6 +238,13 @@ Not work.
 bash ./configure --with-jvm-variants=zero
 ```
 
+## Update jdk doc
+
+- pandoc 2.3.1 or newer is recommended
+```
+make update-build-docs
+```
+
 ## Build hsdis
 ### Download the GNU binutils
 ```shell
@@ -265,6 +272,28 @@ cp ./src/utils/hsdis/build/linux-amd64/hsdis-amd64.so ./build/linux-x86_64-serve
 ```
 
 # Testing
+
+```
+export LC_ALL=C
+make test TEST="tier1 tier2 tier3" JTREG="JOBS=4"
+-------------------------------------------------
+
+Running tests using JTREG control variable 'JOBS=4'
+Test selection 'tier1 tier2 tier3', will run:
+* jtreg:test/hotspot/jtreg:tier1
+* jtreg:test/jdk:tier1
+* jtreg:test/langtools:tier1
+* jtreg:test/nashorn:tier1
+* jtreg:test/jaxp:tier1
+* jtreg:test/jdk:tier2
+* jtreg:test/langtools:tier2
+* jtreg:test/nashorn:tier2
+* jtreg:test/jaxp:tier2
+* jtreg:test/jdk:tier3
+* jtreg:test/langtools:tier3
+* jtreg:test/nashorn:tier3
+* jtreg:test/jaxp:tier3
+```
 
 ## docker tests 
 
@@ -365,6 +394,11 @@ jmh
 1 directory, 5 files
 ```
 Then configure --with-jmh=build/jmh/jars
+
+- Running
+```
+make test TEST="micro"
+```
 
 - More info.
 http://openjdk.java.net/projects/code-tools/jmh/
