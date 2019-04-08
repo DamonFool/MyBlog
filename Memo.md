@@ -47,3 +47,26 @@ jar uvf rt.jar java/util/ComparableTimSort*.class
 ```
 Right Ctrl + F    -- 切换到全屏模式
 ```
+
+# git
+
+- https://stackoverflow.com/questions/24543372/git-cannot-clone-or-push-failed-to-connect-connection-refused
+```
+$ git pull
+fatal: unable to access 'https://github.com/DamonFool/MyWorkspace.git/': Failed to connect to 127.0.0.1 port 53368: Connection refused
+
+$ env|grep -i proxy
+NO_PROXY=localhost,127.0.0.0/8,::1
+http_proxy=http://127.0.0.1:53368/
+UBUNTU_MENUPROXY=1
+https_proxy=http://127.0.0.1:53368/
+HTTPS_PROXY=http://127.0.0.1:53368/
+no_proxy=localhost,127.0.0.0/8,::1
+HTTP_PROXY=http://127.0.0.1:53368/
+
+$ unset http_proxy https_proxy HTTPS_PROXY HTTP_PROXY
+$ env|grep -i proxy
+NO_PROXY=localhost,127.0.0.0/8,::1
+UBUNTU_MENUPROXY=1
+no_proxy=localhost,127.0.0.0/8,::1
+```
