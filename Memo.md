@@ -41,3 +41,9 @@ jar uvf rt.jar java/util/ComparableTimSort*.class
 |-|-|
 |ctrl + o|go to type|
 |alt + shift + o|go to file|
+
+# VirtualBox
+
+```
+Right Ctrl + F    -- 切换到全屏模式
+```
