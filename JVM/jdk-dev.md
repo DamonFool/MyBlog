@@ -367,6 +367,15 @@ make CONF=release test TEST="test/hotspot/jtreg/compiler/floatingpoint/TestFloat
 make CONF=release test TEST="compiler/floatingpoint/TestFloatJNIArgs.java"
 ```
 
+- https://bugs.openjdk.java.net/browse/JDK-8223537
+```
+Tier6 run tests with next 2 combinations of flags (Tiered on/off):
+-Xcomp -ea -esa -XX:CompileThreshold=100 -XX:+TieredCompilation
+-Xcomp -ea -esa -XX:CompileThreshold=100 -XX:-TieredCompilation
+
+You can run jtreg tests with -javaoptions:'<flags>' to have the same testing. 
+```
+
 ## gtest
 
 ## Java Microbenchmark Harness
