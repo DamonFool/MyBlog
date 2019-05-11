@@ -1,6 +1,7 @@
 # Useful Commands
 
 ```shell
+sudo mount foo.iso /media
 tree -L 1 jdk -alh
 ```
 
