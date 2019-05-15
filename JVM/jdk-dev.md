@@ -433,6 +433,12 @@ DST="/home/loongson/fujie/jdk-mips/test/hotspot/jtreg/compiler/floatingpoint"
 ${JAVA_HOME}/bin/java -Djava.library.path="${DST}"  compiler.floatingpoint.TestFloatJNIArgs
 ```
 
+# Debugging
+
+```
+jdk-dev/build/linux-x64-debug/images/jdk/bin/java -cp classes_7 -Xlog:vtables*=trace p2.D
+```
+
 # References
 
 [JEP 3: JDK Release Process](http://openjdk.java.net/jeps/3)
