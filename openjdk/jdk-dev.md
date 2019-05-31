@@ -386,6 +386,7 @@ finishing deferred symbolic links:
 
 ```
 jdk-dev/build/linux-x64-debug/images/jdk/bin/java -cp classes_7 -Xlog:vtables*=trace p2.D
+jtreg -jdk:/oracle/valhallaL/build/linux-x86_64-server-fastdebug/jdk/ -va -javaoptions:"-Xint -DVerifyVM=true" -J-Djavatest.maxOutputSize=10000000 test/hotspot/jtreg/compiler/valhalla/valuetypes/TestLWorld.java
 ```
 
 # Other Useful Scripts
