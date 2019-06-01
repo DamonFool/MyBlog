@@ -147,6 +147,18 @@ make bootcycle-images
 make CONF=slow run-test-tier1 # configured --with-jtreg=<jtreg-path>
 ```
 
+# Build 32-bit on 64-bit machine
+
+```shell
+dpkg --print-foreign-architectures
+
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get dist-upgrade
+
+sudo apt-get install gcc-multilib g++-multilib
+```
+
 # Build zero
 ```
 bash ./configure --with-jvm-variants=zero
