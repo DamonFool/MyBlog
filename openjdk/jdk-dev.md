@@ -282,6 +282,24 @@ Tier6 run tests with next 2 combinations of flags (Tiered on/off):
 You can run jtreg tests with -javaoptions:'<flags>' to have the same testing. 
 ```
 
+### graal-unit
+
+```
+make test TEST="compiler/graalunit/" CONF=release JTREG="VERBOSE=all;VM_OPTIONS=-XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI"
+```
+
+### jcstress
+
+```
+make test TEST="applications/jcstress/" CONF=release JTREG="JAVA_OPTIONS=-Djdk.test.lib.artifacts.jcstress-tests-all=/PATH-TO-YOUR/jcstress.jar"
+```
+
+### SciMark
+
+```
+make test TEST="applications/scimark/Scimark.java" CONF=release JTREG="JAVA_OPTIONS=-Djdk.test.lib.artifacts.scimark=/home/fool/jdk-dev/build/scimark2lib.jar"
+```
+
 ## gtest
 
 ## Java Microbenchmark Harness
