@@ -89,24 +89,22 @@ done
 
 - my shell script
 ```shell
-JDK=/home/fool/jdk/
+JDK=/home/fool/fujie/workspace/jdk-dev
 JTREG=/home/fool/fujie/workspace/jtreg/build/images/jtreg
+BOOTJDK=/opt/jdk-12.0.1
 
 rm ${JDK}/build -rf
 
 cd ${JDK}
 
 bash ${JDK}/make/devkit/createJMHBundle.sh
+bash test/hotspot/jtreg/compiler/graalunit/downloadLibs.sh  ${JDK}/build/graal-unit-lib
 
-bash ${JDK}/configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=slowdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
-bash ${JDK}/configure --with-boot-jdk='/opt/jdk-11.0.1' --with-debug-level=fastdebug --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
-bash ${JDK}/configure --with-boot-jdk='/opt/jdk-11.0.1'                              --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG}
+COMMON="--with-boot-jdk=${BOOTJDK} --disable-warnings-as-errors --with-jmh=build/jmh/jars --with-jtreg=${JTREG} --with-graalunit-lib=${JDK}/build/graal-unit-lib"
 
-exit 0
-
-make CONF=slow images
-make CONF=rel  images
-make CONF=fast images
+bash ${JDK}/configure ${COMMON}
+bash ${JDK}/configure ${COMMON} --with-debug-level=slowdebug
+bash ${JDK}/configure ${COMMON} --with-debug-level=fastdebug
 ```
 
 - more configurations
