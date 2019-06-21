@@ -136,6 +136,141 @@ ${JDK}/bin/java \
   all
 ```
 
+# Running Script
+
+## Startup Performance
+
+```shell
+JDK=jdk-to-be-test
+
+Log=x86-startup-tier.log
+${JDK}/bin/java \
+  -jar renaissance-0.9.0.jar \
+  --policy fixed-iterations \
+  -r 1 \
+  all 1>${Log} 2>>${Log}
+
+Log=x86-startup-c2.log
+${JDK}/bin/java \
+  -XX:-TieredCompilation \
+  -jar renaissance-0.9.0.jar \
+  --policy fixed-iterations \
+  -r 1 \
+  all 1>${Log} 2>>${Log}
+
+Log=x86-startup-c1.log
+${JDK}/bin/java \
+  -XX:TieredStopAtLevel=1 \
+  -jar renaissance-0.9.0.jar \
+  --policy fixed-iterations \
+  -r 1 \
+  all 1>${Log} 2>>${Log}
+```
+
+# Failure
+
+## MIPS
+
+```
+Error during tear-down: null
+java.lang.NullPointerException
+	at org.lmdbjava.bench.LevelDb$CommonLevelDb.teardown(LevelDb.java:128)
+	at org.lmdbjava.bench.LevelDb$Reader.teardown(LevelDb.java:233)
+	at org.renaissance.database.DbShootout.tearDownAfterAll(DbShootout.scala:98)
+	at org.renaissance.RenaissanceBenchmark.runBenchmark(RenaissanceBenchmark.java:102)
+	at org.renaissance.RenaissanceSuite$.$anonfun$main$2(renaissance-suite.scala:298)
+	at org.renaissance.RenaissanceSuite$.$anonfun$main$2$adapted(renaissance-suite.scala:296)
+	at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)
+	at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)
+	at org.renaissance.RenaissanceSuite$.main(renaissance-suite.scala:296)
+	at org.renaissance.RenaissanceSuite.main(renaissance-suite.scala)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.renaissance.Launcher.main(Launcher.java:21)
+Exception occurred in org.renaissance.database.DbShootout@56113384: Could not load library. Reasons: [no leveldbjni64-1.8 in java.library.path: [/usr/java/packages/lib, /lib, /usr/lib], no leveldbjni-1.8 in java.library.path: [/usr/java/packages/lib, /lib, /usr/lib], no leveldbjni in java.library.path: [/usr/java/packages/lib, /lib, /usr/lib], /tmp/libleveldbjni-64-1-297601802768107824.8: /tmp/libleveldbjni-64-1-297601802768107824.8: cannot open shared object file: No such file or directory (Possible cause: architecture word width mismatch)]
+java.lang.UnsatisfiedLinkError: Could not load library. Reasons: [no leveldbjni64-1.8 in java.library.path: [/usr/java/packages/lib, /lib, /usr/lib], no leveldbjni-1.8 in java.library.path: [/usr/java/packages/lib, /lib, /usr/lib], no leveldbjni in java.library.path: [/usr/java/packages/lib, /lib, /usr/lib], /tmp/libleveldbjni-64-1-297601802768107824.8: /tmp/libleveldbjni-64-1-297601802768107824.8: cannot open shared object file: No such file or directory (Possible cause: architecture word width mismatch)]
+	at org.fusesource.hawtjni.runtime.Library.doLoad(Library.java:187)
+	at org.fusesource.hawtjni.runtime.Library.load(Library.java:143)
+	at org.fusesource.leveldbjni.JniDBFactory.<clinit>(JniDBFactory.java:48)
+	at org.lmdbjava.bench.LevelDb$CommonLevelDb.setup(LevelDb.java:118)
+	at org.lmdbjava.bench.LevelDb$Reader.setup(LevelDb.java:227)
+	at org.renaissance.database.DbShootout.setUpBeforeAll(DbShootout.scala:80)
+	at org.renaissance.RenaissanceBenchmark.runBenchmark(RenaissanceBenchmark.java:79)
+	at org.renaissance.RenaissanceSuite$.$anonfun$main$2(renaissance-suite.scala:298)
+	at org.renaissance.RenaissanceSuite$.$anonfun$main$2$adapted(renaissance-suite.scala:296)
+	at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)
+	at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)
+	at org.renaissance.RenaissanceSuite$.main(renaissance-suite.scala:296)
+	at org.renaissance.RenaissanceSuite.main(renaissance-suite.scala)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.renaissance.Launcher.main(Launcher.java:21)
+The following benchmarks failed: db-shootout
+```
+
+# Result Parser
+
+```python
+# -*- coding: utf-8 -*-
+
+import sys
+
+benchmarksList = "akka-uct als chi-square db-shootout dec-tree dotty dummy finagle-chirper finagle-http fj-kmeans future-genetic gauss-mix log-regression mnemonics movie-lens naive-bayes neo4j-analytics pp
+age-rank par-mnemonics philosophers reactors rx-scrabble scala-kmeans scala-stm-bench7 scrabble".strip().split()
+
+if len(sys.argv) < 2:
+    print('At least one Log file is needed ...')
+    exit(-1)
+
+resultDict = {}
+
+for fNum in xrange(1, len(sys.argv)):
+
+    try:
+        logFile = open(sys.argv[fNum], 'r')
+    except:
+        print('Open file %s error!' % sys.argv[fNum])
+        exit(-1)
+
+    resultDict[sys.argv[fNum]] = {}
+    curDict = resultDict[sys.argv[fNum]]
+    for item in benchmarksList:
+        curDict[item] = ''
+
+    for line in logFile:
+
+        if '======' in line and 'final iteration completed' in line:
+            #====== akka-uct (actors), final iteration completed (10997.509 ms) ======
+            tmp = line.strip().split()
+            benName = tmp[1]
+            score   = tmp[6][1:]
+            if curDict.has_key(benName):
+                curDict[benName] = score
+            else:
+                print('Unregistered benchmark: %s' % benName)
+        else:
+            continue
+
+print('\n\nNow please copy the following output and paste them in your Redmine wiki page ...\n\n')
+
+print('\n|Renaissance Benchmarks'),
+for i in xrange(len(sys.argv) - 1):
+    print('|'),
+print('|\n'),
+
+for ben in benchmarksList:
+    print('|%s' % ben),
+    for f in sys.argv[1:]:
+        curDict = {}
+        if resultDict.has_key(f):
+```
+
 # Ref
 
 [Renaissance Benchmark Suite](https://github.com/renaissance-benchmarks/renaissance)
