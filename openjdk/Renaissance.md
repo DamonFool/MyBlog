@@ -221,8 +221,7 @@ The following benchmarks failed: db-shootout
 
 import sys
 
-benchmarksList = "akka-uct als chi-square db-shootout dec-tree dotty dummy finagle-chirper finagle-http fj-kmeans future-genetic gauss-mix log-regression mnemonics movie-lens naive-bayes neo4j-analytics pp
-age-rank par-mnemonics philosophers reactors rx-scrabble scala-kmeans scala-stm-bench7 scrabble".strip().split()
+benchmarksList = "akka-uct als chi-square db-shootout dec-tree dotty dummy finagle-chirper finagle-http fj-kmeans future-genetic gauss-mix log-regression mnemonics movie-lens naive-bayes neo4j-analytics page-rank par-mnemonics philosophers reactors rx-scrabble scala-kmeans scala-stm-bench7 scrabble".strip().split()
 
 if len(sys.argv) < 2:
     print('At least one Log file is needed ...')
@@ -269,6 +268,16 @@ for ben in benchmarksList:
     for f in sys.argv[1:]:
         curDict = {}
         if resultDict.has_key(f):
+            curDict = resultDict[f]
+        else:
+            print('\n\nNo result dict for file: %s' % f)
+            exit(-1)
+
+        if curDict.has_key(ben):
+            print('|%s' % curDict[ben]),
+        else:
+            print('|-'),
+    print('|\n'),
 ```
 
 # Ref
