@@ -141,30 +141,59 @@ ${JDK}/bin/java \
 ## Startup Performance
 
 ```shell
-JDK=jdk-to-be-test
+num=0
 
-Log=x86-startup-tier.log
-${JDK}/bin/java \
-  -jar renaissance-0.9.0.jar \
-  --policy fixed-iterations \
-  -r 1 \
-  all 1>${Log} 2>>${Log}
+while(true);
+do
+      let num++
+      echo "Round: ${num}"
 
-Log=x86-startup-c2.log
-${JDK}/bin/java \
-  -XX:-TieredCompilation \
-  -jar renaissance-0.9.0.jar \
-  --policy fixed-iterations \
-  -r 1 \
-  all 1>${Log} 2>>${Log}
+      JDK=/home/loongson/fujie/jdk8-mips/build/linux-mips64-normal-server-release/images/j2sdk-image
+      ${JDK}/bin/java \
+        -jar renaissance-0.9.0.jar \
+        --policy fixed-iterations \
+        -r 1 \
+        all  | tee jdk8-${num}.log
 
-Log=x86-startup-c1.log
-${JDK}/bin/java \
-  -XX:TieredStopAtLevel=1 \
-  -jar renaissance-0.9.0.jar \
-  --policy fixed-iterations \
-  -r 1 \
-  all 1>${Log} 2>>${Log}
+      sleep 3s  # s
+
+      JDK=/home/loongson/fujie/jdk-mips/build/linux-mips64el-normal-server-release/images/jdk
+      ${JDK}/bin/java \
+        -jar renaissance-0.9.0.jar \
+        --policy fixed-iterations \
+        -r 1 \
+        all  | tee jdk12-${num}.log
+done
+```
+
+## Peak Performance
+
+```shell
+num=0
+
+while(true);
+do
+      let num++
+      echo "Round: ${num}"
+
+      JDK=/home/loongson/fujie/jdk8-mips/build/linux-mips64-normal-server-release/images/j2sdk-image
+      ${JDK}/bin/java \
+        -jar renaissance-0.9.0.jar \
+        --policy fixed-warmup \
+        -w 120 \
+        -t 240 \
+        all  | tee jdk8-${num}.log
+
+      sleep 3s  # s
+
+      JDK=/home/loongson/fujie/jdk-mips/build/linux-mips64el-normal-server-release/images/jdk
+      ${JDK}/bin/java \
+        -jar renaissance-0.9.0.jar \
+        --policy fixed-warmup \
+        -w 120 \
+        -t 240 \
+        all  | tee jdk12-${num}.log
+done
 ```
 
 # Failure
