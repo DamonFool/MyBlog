@@ -11,6 +11,9 @@ https://wiki.openjdk.java.net/
 - OpenJDK Main-line code repository
 http://hg.openjdk.java.net/jdk/jdk/
 
+- Java Development Kit builds, from Oracle
+https://jdk.java.net/
+
 - JBS
 https://bugs.openjdk.java.net
 
