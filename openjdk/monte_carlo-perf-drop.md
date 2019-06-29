@@ -3,6 +3,8 @@
 ## Symptom
 ~15% performance degradation (from 700 ops/m to 600 ops/m) was observed randomly on x86 while running SPECjvm2008's scimark.monte_carlo with -XX:-TieredCompilation.
 
+See [JDK-8221542](https://bugs.openjdk.java.net/browse/JDK-8221542)
+
 ## Reproduce
 
 It can be always reproduced with the follwoing script in less than 5 minutes.
@@ -230,7 +232,7 @@ But for callers with loops, it would be better to make a not-inline decision mor
 The final fix is [here](http://hg.openjdk.java.net/jdk/jdk/rev/1abca1170080).
 
 ## Testing
-- Running scimark.monte_carlo on jdk/x64 with -XX:-TieredCompilation for about 5000 times, no performance drop
+- Running scimark.monte_carlo on jdk/x64 with -XX:-TieredCompilation for about 5000 times, no performance drop;
   Also on jdk8u/mips64 with -XX:-TieredCompilation, no performance drop
 - Running make test TEST="micro" on jdk/x64, no performance regression
 - Running SPECjvm2008 on jdk8u/x64 with -XX:-TieredCompilation, no performance regression
