@@ -3,7 +3,84 @@
 ## Symptom
 ~15% performance degradation (from 700 ops/m to 600 ops/m) was observed randomly on x86 while running SPECjvm2008's scimark.monte_carlo with -XX:-TieredCompilation.
 
-- Fast evaluation
+## Reproduce
+
+It can be always reproduced with the follwoing script in less than 5 minutes.
+
+```shell
+#!/bin/bash
+
+SPECJVM2008="/home/fool/fujie/workspace/jdk-test/SPECjvm2008"
+JDK="/home/fool/fujie/workspace/jdk-dev/build/linux-x86_64-server-release/images/jdk"
+
+cd ${SPECJVM2008}
+
+Ben="scimark.monte_carlo"
+JVM_ARGS="-XX:-TieredCompilation -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining"
+
+num=0
+
+while true; do
+
+   let num++
+   LOG=monte_carlo-${num}.log
+
+   echo ${num}
+   ${JDK}/bin/java \
+      ${JVM_ARGS} \
+      -jar SPECjvm2008.jar -ikv -coe -ict \
+      ${Ben} | tee ${LOG}  &
+
+   while true; do
+
+      sleep 2s
+
+      # detect inline
+      result=`grep "@ 6   spec.benchmarks.scimark.utils.Random::<init> (53 bytes)   inline (hot)" ${LOG}`
+      if [ "${result}" ];  then
+         rm ${LOG}
+         killall -9 java
+         break
+      fi
+
+      # detect not inline
+      result=`grep "Score on " ${LOG}`
+      if [ "${result}" ];  then
+         echo "Find a not inlined case"
+         exit 0
+      fi
+
+   done
+
+done
+```
+
+## Reason
+
+The drop was caused by a not-inline decisiion on spec.benchmarks.scimark.utils.Random::<init> in spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate.
+
+If performance drop occurs:
+```
+336   71             spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate (68 bytes)
+                        @ 6   spec.benchmarks.scimark.utils.Random::<init> (53 bytes)   call site not reached
+          s             @ 22   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
+          s             @ 28   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
+```
+
+If no performance drop:
+```
+368   71             spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate (68 bytes)
+                        @ 6   spec.benchmarks.scimark.utils.Random::<init> (53 bytes)   inline (hot)
+                          @ 1   java.lang.Object::<init> (1 bytes)   inline (hot)
+                          @ 49   spec.benchmarks.scimark.utils.Random::initialize (125 bytes)   inline (hot)
+                            @ 14   java.lang.Math::abs (11 bytes)   executed < MinInliningThreshold times
+                            @ 19   java.lang.Math::min (11 bytes)   (intrinsic)
+          s             @ 22   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
+          s             @ 28   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
+```
+
+### Fast Evaluation
+
 ```shell
 #!/bin/bash
 
@@ -11,7 +88,6 @@ SPECJVM2008="/home/fool/fujie/workspace/jdk-test/SPECjvm2008"
 
 Ben="scimark.monte_carlo"
 JDK="/home/fool/jdk/build/linux-x86_64-server-release/images/jdk"
-JVM_ARGS="-XX:-TieredCompilation -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining"
 JVM_ARGS="-XX:-TieredCompilation"
 
 cd ${SPECJVM2008}
@@ -40,33 +116,9 @@ while true; do
 done
 ```
 
-## Reproduce
-It can be always reproduced with the script[1] in less than 5 minutes.
+### Analysis
 
-## Reason
-The drop was caused by a not-inline decisiion on spec.benchmarks.scimark.utils.Random::<init> in spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate.
-
-If performance drop occurs:
-```
-336   71             spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate (68 bytes)
-                        @ 6   spec.benchmarks.scimark.utils.Random::<init> (53 bytes)   call site not reached
-          s             @ 22   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
-          s             @ 28   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
-```
-
-If no performance drop:
-```
-368   71             spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate (68 bytes)
-                        @ 6   spec.benchmarks.scimark.utils.Random::<init> (53 bytes)   inline (hot)
-                          @ 1   java.lang.Object::<init> (1 bytes)   inline (hot)
-                          @ 49   spec.benchmarks.scimark.utils.Random::initialize (125 bytes)   inline (hot)
-                            @ 14   java.lang.Math::abs (11 bytes)   executed < MinInliningThreshold times
-                            @ 19   java.lang.Math::min (11 bytes)   (intrinsic)
-          s             @ 22   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
-          s             @ 28   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
-```
-
-The not-inline decisiion was made by a heuristic here[2].
+The not-inline decisiion was made by [a heuristic here](http://hg.openjdk.java.net/jdk/jdk/file/0a2d73e02076/src/hotspot/share/opto/bytecodeInfo.cpp#l375).
 It was designed not to inline unreached callsites based on profile.count=0 only.
 
 For callers with loops, the profile.count=0 for the callsite may be incorrect and misleading.
@@ -169,95 +221,16 @@ The callsite just kept the initial status with profile.count=0, which shouldn't 
 So for callers with loops, it may be misleading to make inline decisions based on profile.count=0 only.
 
 ## Fix
-It might be better to make a little change to the inline heuristic[2].
+
+It might be better to make a little change to [the inline heuristic](http://hg.openjdk.java.net/jdk/jdk/file/0a2d73e02076/src/hotspot/share/opto/bytecodeInfo.cpp#l375).
 
 For callers without loops, the original heuristic works fine.
 But for callers with loops, it would be better to make a not-inline decision more conservatively.
 
-To fix this issue, a patch has been proposed: http://cr.openjdk.java.net/~jiefu/monte_carlo-perf-drop/webrev.00/
-```
---- old/src/hotspot/share/opto/bytecodeInfo.cpp	2019-03-27 17:48:20.100393526 +0800
-+++ new/src/hotspot/share/opto/bytecodeInfo.cpp	2019-03-27 17:48:19.908393402 +0800
-@@ -1,5 +1,5 @@
- /*
-- * Copyright (c) 1998, 2018, Oracle and/or its affiliates. All rights reserved.
-+ * Copyright (c) 1998, 2019, Oracle and/or its affiliates. All rights reserved.
-  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-  *
-  * This code is free software; you can redistribute it and/or modify it
-@@ -374,8 +374,11 @@
-       // Inlining was forced by CompilerOracle, ciReplay or annotation
-     } else if (profile.count() == 0) {
-       // don't inline unreached call sites
--       set_msg("call site not reached");
--       return false;
-+      // make a not-inline decision more conservatively for callers with loops
-+      if (!caller_method->has_loops() || caller_method->interpreter_invocation_count() > Tier3MinInvocationThreshold) {
-+        set_msg("call site not reached");
-+        return false;
-+      }
-     }
-   }
-```
+The final fix is [here](http://hg.openjdk.java.net/jdk/jdk/rev/1abca1170080).
 
 ## Testing
 - Running scimark.monte_carlo on jdk/x64 with -XX:-TieredCompilation for about 5000 times, no performance drop
   Also on jdk8u/mips64 with -XX:-TieredCompilation, no performance drop
 - Running make test TEST="micro" on jdk/x64, no performance regression
 - Running SPECjvm2008 on jdk8u/x64 with -XX:-TieredCompilation, no performance regression
-
-[1] http://cr.openjdk.java.net/~jiefu/monte_carlo-perf-drop/reproduce.sh
-```shell
-#!/bin/bash
-
-SPECJVM2008="/home/fool/fujie/workspace/jdk-test/SPECjvm2008"
-JDK="/home/fool/fujie/workspace/jdk-dev/build/linux-x86_64-server-release/images/jdk"
-
-cd ${SPECJVM2008}
-
-Ben="scimark.monte_carlo"
-JVM_ARGS="-XX:-TieredCompilation -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining"
-
-num=0
-
-while true; do
-
-   let num++
-   LOG=monte_carlo-${num}.log
-
-   echo ${num}
-   ${JDK}/bin/java \
-      ${JVM_ARGS} \
-      -jar SPECjvm2008.jar -ikv -coe -ict \
-      ${Ben} | tee ${LOG}  &
-
-   while true; do
-
-      sleep 2s
-
-      # detect inline
-      result=`grep "@ 6   spec.benchmarks.scimark.utils.Random::<init> (53 bytes)   inline (hot)" ${LOG}`
-      if [ "${result}" ];  then
-         rm ${LOG}
-         killall -9 java
-         break
-      fi
-
-      # detect not inline
-      result=`grep "Score on " ${LOG}`
-      if [ "${result}" ];  then
-         echo "Find a not inlined case"
-         exit 0
-      fi
-
-   done
-
-done
-```
-- Fast reproduce
-```
-      -XX:CompileCommand=quiet \
-      -XX:CompileOnly=spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate \
-```
-
-[2] http://hg.openjdk.java.net/jdk/jdk/file/0a2d73e02076/src/hotspot/share/opto/bytecodeInfo.cpp#l375
