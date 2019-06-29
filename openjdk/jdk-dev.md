@@ -486,12 +486,21 @@ done
 # References
 
 [JEP 3: JDK Release Process](http://openjdk.java.net/jeps/3)
+
 [JDK 12](http://openjdk.java.net/projects/jdk/12/)
+
 [OpenJDK](http://openjdk.java.net/)
+
 [OpenJDK Projects](http://hg.openjdk.java.net/)
+
 [OpenJDK wiki](https://wiki.openjdk.java.net/)
+
 [idealgraphvisualizer](https://lafo.ssw.uni-linz.ac.at/pub/idealgraphvisualizer/)
+
 [c1visualizer](https://lafo.ssw.uni-linz.ac.at/pub/graal-external-deps/c1visualizer-1.7.zip)
+
 [graal-external-deps](https://lafo.ssw.uni-linz.ac.at/pub/graal-external-deps/)
+
 [Becoming an Author](http://openjdk.java.net/projects/)
+
 [OpenJDK people](http://db.openjdk.java.net/people/)
