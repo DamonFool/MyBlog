@@ -1,30 +1,22 @@
-# OpenJDK Community
+## Useful Links 
 
-## Useful Websites 
+[List of OCA Signatories](www.oracle.com/technetwork/community/oca-486395.html)
 
-- OpenJDK homepage
-http://openjdk.java.net/
+[Becoming an Author](http://openjdk.java.net/projects/) && [OpenJDK people](http://db.openjdk.java.net/people/)
 
-- OpenJDK wiki
-https://wiki.openjdk.java.net/
+[Community Code Review](http://openjdk.java.net/guide/codeReview.html)
 
-- OpenJDK Main-line code repository
-http://hg.openjdk.java.net/jdk/jdk/
+[JBS](https://bugs.openjdk.java.net) && [JBS Overview](https://wiki.openjdk.java.net/display/general/JBS+Overview)
 
-- Java Development Kit builds, from Oracle
-https://jdk.java.net/
+[OpenJDK Main Repository](http://hg.openjdk.java.net/jdk/jdk/)
 
-- JBS
-https://bugs.openjdk.java.net
+[Submit Repo](https://wiki.openjdk.java.net/display/Build/Submit+Repo) jdk/submit only runs tier1 testing
 
-- Webrev
-http://cr.openjdk.java.net
-http://cr.openjdk.java.net/~jiefu/
-
-- OpenJDK Web Site Terms of Use
-http://openjdk.java.net/legal/tou/
+[Java Development Kit Builds, from Oracle](https://jdk.java.net/)
 
 ## How to Use Webrev
+
+[Webrev](http://cr.openjdk.java.net) && [My Webrev](http://cr.openjdk.java.net/~jiefu/) && [OpenJDK Web Site Terms of Use](http://openjdk.java.net/legal/tou/)
 
 ```
 wget http://hg.openjdk.java.net/code-tools/webrev/raw-file/tip/webrev.ksh
@@ -48,33 +40,13 @@ commit: 2 removed, 5 unknown
 update: (current)
 ```
 
-## Submit Repo
-
-https://wiki.openjdk.java.net/display/Build/Submit+Repo
-
-jdk/submit only runs tier1 testing
-
 ## FAQ
 
-- How can I tell if I, or someone else, has signed the OCA?
-A list of OCA signatories is available [here](www.oracle.com/technetwork/community/oca-486395.html)
-
-- How do I change my OpenJDK e-mail address of record?
+### How do I change my OpenJDK e-mail address of record?
 Send a message to registrar@openjdk.java.net
 
+## Reference
 
-# References
-
-[OpenJDK](http://openjdk.java.net/)
-
-[Becoming an Author](http://openjdk.java.net/projects/)
-
-[OpenJDK people](http://db.openjdk.java.net/people/)
-
-[JBS Overview](https://wiki.openjdk.java.net/display/general/JBS+Overview)
-
-[Community Code Review](http://openjdk.java.net/guide/codeReview.html)
+[OpenJDK](http://openjdk.java.net/) && [OpenJDK wiki](https://wiki.openjdk.java.net/)
 
 [JEP 3: JDK Release Process](http://openjdk.java.net/jeps/3)
-
-[OpenJDK wiki](https://wiki.openjdk.java.net/)
