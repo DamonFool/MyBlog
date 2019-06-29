@@ -127,7 +127,7 @@ For callers with loops, the `profile.count=0` for the callsite may be incorrect 
 Inline decisions based on misleading profile info only may lead to unoptimized compile code.
 Actually, the preformance drop of scimark.monte_carlo was just in that case.
 
-The code of spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate
+The code of `spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate`
 ```
     public final double integrate(int numSamples) {
 
