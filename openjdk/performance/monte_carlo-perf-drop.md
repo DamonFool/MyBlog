@@ -1,7 +1,7 @@
 # ~15% performance degradation due to less optimized inline decision
 
 ## Symptom
-~15% performance degradation (from 700 ops/m to 600 ops/m) was observed randomly on x86 while running SPECjvm2008's scimark.monte_carlo with -XX:-TieredCompilation.
+~15% performance degradation (from 700 ops/m to 600 ops/m) was observed randomly on x86 while running SPECjvm2008's scimark.monte_carlo with `-XX:-TieredCompilation`.
 
 See [JDK-8221542](https://bugs.openjdk.java.net/browse/JDK-8221542)
 
@@ -59,7 +59,7 @@ done
 
 ## Reason
 
-The drop was caused by a not-inline decisiion on spec.benchmarks.scimark.utils.Random::<init> in spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate.
+The drop was caused by a not-inline decisiion on `spec.benchmarks.scimark.utils.Random::<init>` in `spec.benchmarks.scimark.monte_carlo.MonteCarlo::integrate`.
 
 If performance drop occurs:
 ```
@@ -121,9 +121,9 @@ done
 ### Analysis
 
 The not-inline decisiion was made by [a heuristic here](http://hg.openjdk.java.net/jdk/jdk/file/0a2d73e02076/src/hotspot/share/opto/bytecodeInfo.cpp#l375).
-It was designed not to inline unreached callsites based on profile.count=0 only.
+It was designed not to inline unreached callsites based on `profile.count=0` only.
 
-For callers with loops, the profile.count=0 for the callsite may be incorrect and misleading.
+For callers with loops, the `profile.count=0` for the callsite may be incorrect and misleading.
 Inline decisions based on misleading profile info only may lead to unoptimized compile code.
 Actually, the preformance drop of scimark.monte_carlo was just in that case.
 
@@ -216,11 +216,11 @@ method data for {method} {0x00007f3881132558} 'integrate' '(I)D' in 'spec/benchm
               s             @ 28   spec.benchmarks.scimark.utils.Random::nextDouble (124 bytes)   inline (hot)
 ```
 
-Obviously, the profile.count=0 (at bci:6) was incorrect, since the callsite was always reached in the caller.
+Obviously, the `profile.count=0` (at bci:6) was incorrect, since the callsite was always reached in the caller.
 The profile process was started in the loop of the caller, and the callsite(at bci:6, which is outside of the loop) had no chance to be profiled at all when the compilation is triggered.
-The callsite just kept the initial status with profile.count=0, which shouldn't be regarded as unreached at all.
+The callsite just kept the initial status with `profile.count=0`, which shouldn't be regarded as unreached at all.
 
-So for callers with loops, it may be misleading to make inline decisions based on profile.count=0 only.
+So for callers with loops, it may be misleading to make inline decisions based on `profile.count=0` only.
 
 ## Fix
 
@@ -232,7 +232,7 @@ But for callers with loops, it would be better to make a not-inline decision mor
 The final fix is [here](http://hg.openjdk.java.net/jdk/jdk/rev/1abca1170080).
 
 ## Testing
-- Running scimark.monte_carlo on jdk/x64 with -XX:-TieredCompilation for about 5000 times, no performance drop;
-  Also on jdk8u/mips64 with -XX:-TieredCompilation, no performance drop
-- Running make test TEST="micro" on jdk/x64, no performance regression
-- Running SPECjvm2008 on jdk8u/x64 with -XX:-TieredCompilation, no performance regression
+- Running scimark.monte_carlo on jdk/x64 with `-XX:-TieredCompilation` for about 5000 times, no performance drop;
+  Also on jdk8u/mips64 with `-XX:-TieredCompilation`, no performance drop
+- Running `make test TEST="micro"` on jdk/x64, no performance regression
+- Running SPECjvm2008 on jdk8u/x64 with `-XX:-TieredCompilation`, no performance regression
