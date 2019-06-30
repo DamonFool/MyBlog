@@ -43,16 +43,9 @@ bash ${JDK}/configure ${COMMON} --with-debug-level=fastdebug
 
 - more configurations
 ```shell
-bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=slowdebug --with-native-debug-symbols=external
-bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=fastdebug --with-native-debug-symbols=external
-bash configure --with-boot-jdk=/opt/jdk-11.0.1 --disable-warnings-as-errors --with-debug-level=release
-
-# It is recommended to build a 32-bit JVM on a 64-bit machine.
-bash configure --disable-warnings-as-errors --with-freetype=/cygdrive/c/freetype-i586 --with-target-bits=32
-
 bash configure --disable-warnings-as-errors --enable-debug --with-jvm-variants=server --enable-dtrace
 
-# To be able to run the jtreg tests and microbenchmarks
+# Run jtreg tests and microbenchmarks
 bash configure --disable-warnings-as-errors --with-debug-level=fastdebug --with-boot-jdk=/opt/jdk-11.0.1 --with-jmh=build/jmh/jars --with-jtreg=/home/fool/fujie/workspace/jtreg/build/images/jtreg
 ```
 
@@ -76,19 +69,8 @@ make CONF=slow images; make CONF=fast images; make CONF=rel images;
 
 # For jdk12: build images twice, second time with newly built JDK
 make bootcycle-images
+
 make CONF=slow run-test-tier1 # configured --with-jtreg=<jtreg-path>
-```
-
-# Build 32-bit on 64-bit machine
-
-```shell
-dpkg --print-foreign-architectures
-
-sudo dpkg --add-architecture i386
-sudo apt-get update
-sudo apt-get dist-upgrade
-
-sudo apt-get install gcc-multilib g++-multilib
 ```
 
 # Build zero
