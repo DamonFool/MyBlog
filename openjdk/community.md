@@ -18,6 +18,12 @@
 
 [Webrev](http://cr.openjdk.java.net) && [My Webrev](http://cr.openjdk.java.net/~jiefu/) && [OpenJDK Web Site Terms of Use](http://openjdk.java.net/legal/tou/)
 
+### How to prepare the patch?
+```shell
+# First, just commit your patch with the correct format commit message, including reviewers.
+# Then, generate the patch using `ksh webrev.ksh -c 8225648`
+```
+
 ```
 wget http://hg.openjdk.java.net/code-tools/webrev/raw-file/tip/webrev.ksh
 
