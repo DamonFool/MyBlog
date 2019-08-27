@@ -54,6 +54,8 @@ bash configure --disable-warnings-as-errors --with-debug-level=fastdebug --with-
 --with-jvm-features=-compiler1
 ```
 
+Try `-XX:+NeverActAsServerClassMachine` flag which sets configuration similar to old Client VM (C1 JIT + SerialGC)
+
 ### For JDK8
 ```shell
 bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-extra-cflags=-Wno-error --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0
@@ -115,6 +117,12 @@ Test selection 'tier1 tier2 tier3', will run:
 * jtreg:test/langtools:tier3
 * jtreg:test/nashorn:tier3
 * jtreg:test/jaxp:tier3
+```
+
+## How to refuse jtreg java options
+
+```
+opts.appendTestJavaOptions = false;
 ```
 
 ## docker tests 
@@ -274,6 +282,9 @@ ${JAVA_HOME}/bin/java -Djava.library.path="${DST}"  compiler.floatingpoint.TestF
 ```
 
 # Debugging
+
+- Decode assembly instructions
+https://www.onlinedisassembler.com/odaweb/
 
 ## Build hsdis
 - Download the GNU binutils
