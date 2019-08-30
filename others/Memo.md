@@ -49,6 +49,51 @@ libjvm.so: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamica
 $ nm libjvm.so
 ```
 
+# crontab
+
+- crontab -e
+```
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+
+# 在凌晨00:01运行
+1 0 * * * X.sh
+
+# 每个工作日23:59都进行备份作业
+59 23 * * 1,2,3,4,5 X.sh 
+59 23 * * 1-5 X.sh 
+
+# 每分钟运行一次
+*/1 * * * * XXXX.sh
+```
+
+```
+crontab –e : 修改 crontab 文件
+crontab –l : 显示 crontab 文件
+crontab -r : 删除 crontab 文件
+crontab -ir : 删除 crontab 文件前提醒用户
+```
+
 # How to Upate *.jar
 ```shell
 #jar xvf rt.jar
