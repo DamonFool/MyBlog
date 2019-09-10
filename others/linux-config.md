@@ -1,5 +1,19 @@
 # 基本办公配置
 
+## vim
+
+/usr/share/vim/vimrc
+
+```
+set autoindent 
+set cindent 
+```
+
+```
+set noautoindent 
+set nocindent 
+```
+
 ## 截图软件
 
 |OS版本|截图软件|
