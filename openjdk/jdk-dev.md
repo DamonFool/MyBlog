@@ -97,26 +97,10 @@ make update-build-docs
 
 # Testing
 
-```
-export LC_ALL=C
-make test TEST="tier1 tier2 tier3" JTREG="JOBS=4"
--------------------------------------------------
-
-Running tests using JTREG control variable 'JOBS=4'
-Test selection 'tier1 tier2 tier3', will run:
-* jtreg:test/hotspot/jtreg:tier1
-* jtreg:test/jdk:tier1
-* jtreg:test/langtools:tier1
-* jtreg:test/nashorn:tier1
-* jtreg:test/jaxp:tier1
-* jtreg:test/jdk:tier2
-* jtreg:test/langtools:tier2
-* jtreg:test/nashorn:tier2
-* jtreg:test/jaxp:tier2
-* jtreg:test/jdk:tier3
-* jtreg:test/langtools:tier3
-* jtreg:test/nashorn:tier3
-* jtreg:test/jaxp:tier3
+```shell
+# export LC_ALL=C
+make test TEST="tier1 tier2 tier3" CONF=rel  JTREG="JOBS=4"
+make test TEST="tier1 tier2 tier3" CONF=fast JTREG="JOBS=4"
 ```
 
 ## How to refuse jtreg java options
