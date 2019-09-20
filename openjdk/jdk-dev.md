@@ -63,6 +63,17 @@ bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinf
 bash ./configure --with-boot-jdk=/opt/jdk1.8.0_191 --with-jobs=`cat /proc/cpuinfo  | grep processor | wc -l` --with-extra-cflags=-Wno-error
 ```
 
+#### Common errors when building jdk8
+- cc1plus: all warnings being treated as errors
+```
+configure --with-extra-cflags=-Wno-error
+```
+
+- jdk8u60/hotspot/make/linux/Makefile:238: recipe for target 'check_os_version' failed
+```
+$ make CONF=re images DISABLE_HOTSPOT_OS_VERSION_CHECK=ok
+```
+
 ## Make
 ```shell
 make CONF=slow images; make CONF=fast images; make CONF=rel images;
