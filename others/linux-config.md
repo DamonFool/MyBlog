@@ -1,3 +1,5 @@
+[How To Fix Broken Ubuntu OS Without Reinstalling It](https://www.ostechnix.com/how-to-fix-broken-ubuntu-os-without-reinstalling-it/)
+
 # 基本办公配置
 
 ## vim
