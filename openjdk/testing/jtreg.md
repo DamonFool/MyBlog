@@ -97,6 +97,22 @@ ${JT_HOME}/bin/jtreg \
 # -status:fail,error,notRun \
 ```
 
+## Examples by Igor Veresov
+
+https://bugs.openjdk.java.net/browse/JDK-8227003
+
+```shell
+time ~/work/jtreg/bin/jtreg -timeout:10 -jdk:/Users/iggy/work/jdk/build/macosx-x86_64-server-fastdebug/images/jdk -vmoptions:'-XX:+UnlockExperimentalVMOptions -XX:-EnableJVMCI -XX:-UseJVMCICompiler' java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java 
+```
+
+```
+time ~/work/jtreg/bin/jtreg -timeout:10 -jdk:/Users/iggy/work/jdk/build/macosx-x86_64-server-fastdebug/images/jdk -vmoptions:'-ea -esa -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:+UseJVMCICompiler' java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java 
+```
+
+```
+time ~/work/jtreg/bin/jtreg -timeout:10 -jdk:/Users/iggy/work/jdk/build/macosx-x86_64-server-fastdebug/images/jdk -vmoptions:'-ea -esa -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:+UseJVMCICompiler -XX:CompileThresholdScaling=0.1' java/lang/invoke/VarHandles/VarHandleTestByteArrayAsInt.java 
+```
+
 # jtdiff
 
 ```shell

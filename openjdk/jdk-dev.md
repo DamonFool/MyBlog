@@ -205,6 +205,8 @@ You can run jtreg tests with -javaoptions:'<flags>' to have the same testing.
 
 ```
 make test TEST="compiler/graalunit/" CONF=release JTREG="VERBOSE=all;VM_OPTIONS=-XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI"
+
+-XX:+CreateCoredumpOnCrash -ea -esa -server -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:+UseJVMCICompiler -Djvmci.Compiler=graal -XX:+TieredCompilation
 ```
 
 ### jcstress
