@@ -1,3 +1,7 @@
+JCP: Java Community Process (https://www.jcp.org)
+JSR: Java Specification Requests
+TCK: Technology Compatibility Kit
+
 ## Useful Links 
 
 [List of OCA Signatories](www.oracle.com/technetwork/community/oca-486395.html)
