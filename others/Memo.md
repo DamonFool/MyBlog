@@ -1,3 +1,73 @@
+# Basic Operations for Mac
+
+```
+fn键+左方向键是HOME
+fn键+右方向键是END
+
+fn+上方向键是page up
+fn+下方向键是page down
+```
+
+## 截图
+
+shift + command + 4
+
+## 面板操作
+
+鼠标右键：二个手指头按压
+切换workspace: 三个手指左右滑
+网页浏览前后翻页：二个手指左右滑
+
+## terminal
+
+```
+create new terminal: command + n
+
+open new tag: command + t
+change tag:  command + 1/2/3
+              command + shift + t
+```
+
+字体缩放：command +/-/0
+
+### bash和zsh切换方法
+
+```
+切换到bash
+ chsh -s /bin/bash
+
+切换到zsh
+ chsh -s /bin/zsh
+```
+
+### 修改执行exit的行为
+
+[解决Mac终端exit退出不爽](https://blog.csdn.net/u010164190/article/details/60772827)
+
+## vim
+
+### Support copy & paste 
+
+~/.vimrc文件中插入如下配置：
+```
+vmap "+y :w !pbcopy<CR><CR>
+nmap "+p :r !pbpaste<CR><CR>
+```
+command＋c 和command ＋ v
+
+### 语法高亮
+
+~/.vimrc文件中插入如下配置：
+```
+syntax on
+```
+
+## Others
+
+```
+open *.html
+```
+
 # Linux Commands
 
 ## Help Info
