@@ -99,6 +99,29 @@ bash ./configure --with-jvm-variants=zero --with-jvm-interpreter=cpp
 make CONF=zero DEBUG_BINARIES=true images
 ```
 
+# OpenJDK on Mac
+
+## --with-sysroot
+
+```
+checking for sdk name...
+configure: error: No xcodebuild tool and no system framework headers found, use --with-sysroot or --with-sdk-name to provide a path to a valid SDK
+/Users/fool/workspace/open/jdk/build/.configure-support/generated-configure.sh: line 82: 5: Bad file descriptor
+configure exiting with result code 1
+```
+
+```
+$ xcrun --sdk macosx --show-sdk-path
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+```
+
+## --with-libffi
+
+- For zero build
+```
+bash ${JDK}/configure ${COMMON} --with-jvm-variants=zero --with-libffi=/usr/local/Cellar/libffi/3.2.1/lib/libffi-3.2.1
+```
+
 # Update jdk doc
 
 - pandoc 2.3.1 or newer is recommended
@@ -199,6 +222,16 @@ Tier6 run tests with next 2 combinations of flags (Tiered on/off):
 -Xcomp -ea -esa -XX:CompileThreshold=100 -XX:-TieredCompilation
 
 You can run jtreg tests with -javaoptions:'<flags>' to have the same testing. 
+```
+
+### Specify my own ProblemList.txt
+
+```
+Ver="server-release"
+ARGS="VM_OPTIONS=;OPTIONS=-exclude:/XXX/workspace/jdk/mylist.txt"
+
+Ben="tier1 tier2 tier3"
+make test TEST="${Ben}" JTREG="JOBS=5;${ARGS}" CONF=${Ver}
 ```
 
 ### graal-unit
