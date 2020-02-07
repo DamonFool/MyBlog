@@ -1,3 +1,33 @@
+# 升级 centos 的 GCC 编译器版本
+
+ref: https://blog.ruoyun.vip/post/centosgccupdate/
+
+```
+# 安装源 scl
+yum install centos-release-scl
+# 安装 gcc
+yum install devtoolset-8-gcc devtoolset-8-gcc-c++
+# 切换 gcc 版本 (仅对当前shell生效)
+scl enable devtoolset-8 -- bash
+```
+
+```
+source /opt/rh/devtoolset-8/enable
+```
+
+- For OpenJDK
+```
+export CC=/opt/rh/devtoolset-6/root/usr/bin/gcc
+export CXX=/opt/rh/devtoolset-6/root/usr/bin/g++
+```
+
+- For CMake
+```
+-DCMAKE_C_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/gcc -DCMAKE_CXX_COMPILER=/opt/rh/devtoolset-8/root/usr/bin/g++
+```
+
+ref: https://blog.csdn.net/lianshaohua/article/details/90205986
+
 # Basic Operations for Mac
 
 ```
