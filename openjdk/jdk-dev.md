@@ -122,6 +122,12 @@ $ xcrun --sdk macosx --show-sdk-path
 bash ${JDK}/configure ${COMMON} --with-jvm-variants=zero --with-libffi=/usr/local/Cellar/libffi/3.2.1/lib/libffi-3.2.1
 ```
 
+## freetype
+
+```
+--with-freetype-include=/usr/local/include/freetype2 --with-freetype-lib=/usr/local/lib
+```
+
 # Update jdk doc
 
 - pandoc 2.3.1 or newer is recommended
