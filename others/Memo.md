@@ -38,6 +38,10 @@ fn+上方向键是page up
 fn+下方向键是page down
 ```
 
+## 浏览器
+
+command + shift + d: 保存所有打开的标签
+
 ## 截图
 
 shift + command + 4
